@@ -22,7 +22,7 @@ public class PowerBallTest {
     }
 
      @Test
-     public void registrationTicket() throws Exception {
+     public void registrationTicketTest() throws Exception {
         Ticket ticket = new Ticket();
         ticket = ticket.registerTicket();
         assertEquals(6, ticket.getGameFilledBalls().size());
@@ -70,7 +70,7 @@ public class PowerBallTest {
 
         chanceToWin.put(Ticket.possiblePrize.Jackpot , 3.42229781e-9); // Chance to get 5 white balls and red ball
                                                          // is 5/69 * 4/68 *3/68 * 2/67 * 1/66 * 1/26;
-        int ticketsCount=1000000;
+        int ticketsCount=3000000;
         List<Ticket> tickets = ticket.createTickets(ticketsCount);
         Ticket ticketWinNumber = ticket.registerTicket();
         HashMap<Ticket.possiblePrize, List<Ticket>> winners = ticket.CheckForWinners(tickets,ticketWinNumber);
