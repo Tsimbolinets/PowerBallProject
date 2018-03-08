@@ -1,0 +1,162 @@
+package TicketLibrary;
+
+import java.util.*;
+
+public class Ticket {
+
+    private List<Integer> gameFilledBalls;
+
+    public enum possiblePrize {Four,Seven,Hundred,FiftyThouth,Million,Jackpot};
+
+    public Ticket(List<Integer> gameFilledBalls) {
+        this.gameFilledBalls = gameFilledBalls;
+    }
+
+    public Ticket() {
+
+    }
+
+    public Ticket registerTicket() {
+        ArrayList<Integer> exclude = new ArrayList<Integer>();
+        ArrayList<Integer> registerTicket = new ArrayList<>();
+        for (int i = 1; i < 6; i++) {
+            int random = getRandomWithExclusion(69, 1, exclude);
+            registerTicket.add(random);
+            exclude.add(random);
+        }
+        exclude.clear();
+        registerTicket.add(getRandomWithExclusion(26, 1, exclude));
+        return new Ticket(registerTicket);
+    }
+
+    public Ticket registerTicketYourself() {
+        ArrayList<Integer> registerTicket = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        int value ;
+        int start=1;
+        int end=69;
+        boolean checker = true;
+        for (int i = 0; i < 5; i++) {
+            do {
+                System.out.println("Please, input ball number " + (i + 1) + " from range (" + start + "," + end + ")");
+                value = sc.nextInt();
+                if (value <= end && value >= start && !registerTicket.contains(value)) {
+                    checker = false;
+                    continue;
+                }
+                if (!checker) {
+                    System.out.println("Wrong number or number is already taken");
+                }
+                checker = true;
+            } while (checker);
+            registerTicket.add(value);
+        }
+        end = 26;
+        do {
+            System.out.println("Please, input ball number " + 6 + " from range (" + start + "," + end + ")");
+            value = sc.nextInt();
+            if (value <= end && value >= start) {
+                checker = false;
+                continue;
+            }
+            if (!checker) {
+                System.out.println("Wrong number or number is already taken");
+            }
+            checker = true;
+        } while (checker);
+        registerTicket.add(value);
+        return new Ticket(registerTicket);
+    }
+
+
+    public HashMap<possiblePrize, List<Ticket>> CheckForWinners(List<Ticket> tickets, Ticket ticketWinNumber){
+        int whiteBallsCount;
+        int redBall;
+        HashMap<possiblePrize,List<Ticket>> winners = new HashMap<>();
+        for (possiblePrize prize : possiblePrize.values()) {
+            winners.put(prize, new ArrayList<Ticket>());
+        }
+        for (int i=0;i<tickets.size();i++) {
+            whiteBallsCount = 0;
+            redBall= 0;
+            for(int j = 0; j<tickets.get(i).gameFilledBalls.size()-1; j++) {
+                for(int k = 0; k<ticketWinNumber.gameFilledBalls.size()-1; k++)
+                {
+                    if(tickets.get(i).gameFilledBalls.get(j).equals(ticketWinNumber.gameFilledBalls.get(k))) {
+                        whiteBallsCount++;
+                        break;
+                    }
+                }
+            }
+            if (tickets.get(i).gameFilledBalls.get(5).equals(ticketWinNumber.gameFilledBalls.get(5))){
+                redBall=1;
+            }
+            if(whiteBallsCount+redBall==3  ){
+                winners.get(possiblePrize.Seven).add(tickets.get(i));
+                continue;
+            }
+            if(whiteBallsCount+redBall==4  ){
+                winners.get(possiblePrize.Hundred).add(tickets.get(i));
+                continue;
+            }
+            if(whiteBallsCount==4 & redBall==1  ){
+                winners.get(possiblePrize.FiftyThouth).add(tickets.get(i));
+                continue;
+            }
+            if(whiteBallsCount==5 & redBall==1  ){
+                winners.get(possiblePrize.Jackpot).add(tickets.get(i));
+                continue;
+            }
+            if (redBall==1 ) {
+                winners.get(possiblePrize.Four).add(tickets.get(i));
+                continue;
+            }
+            if(whiteBallsCount==5){
+                winners.get(possiblePrize.Million).add(tickets.get(i));
+            }
+        }
+        return winners;
+    }
+
+
+    private int getRandomWithExclusion(int start, int end, ArrayList<Integer> exclude) {
+        Random rand = new Random();
+        int range = start - end + 1;
+        int random = rand.nextInt(range) + 1;
+        while (exclude.contains(random)) {
+            random = rand.nextInt(range) + 1;
+        }
+        return random;
+    }
+
+    public List<Ticket> createTickets(int count) {
+        List<Ticket> tickets = new ArrayList<>();
+        Ticket ticket = new Ticket();
+        for(int i=1;i<count; i++) {
+            ticket = ticket.registerTicket();
+            tickets.add(ticket);
+        }
+        return tickets;
+    }
+
+    public void printWinners(HashMap<possiblePrize,List<Ticket>> winners) {
+        String str;
+        System.out.println();
+        str = "4 Dollars won:" + winners.get(possiblePrize.Four).size() + " people;" + System.lineSeparator()
+                + "7 Dollars won:" + winners.get(possiblePrize.Seven).size() + " people;" + System.lineSeparator()
+                + "100 Dollars won:" + winners.get(possiblePrize.Hundred).size() + " people;" + System.lineSeparator()
+                + "50000 Dollars won:" + winners.get(possiblePrize.FiftyThouth).size() + " people;" + System.lineSeparator()
+                + "1000000 Dollars won:" + winners.get(possiblePrize.Million).size() + " people;" + System.lineSeparator()
+                + "Jackpot won:" + winners.get(possiblePrize.Jackpot).size() + " people;";
+        System.out.println(str);
+        System.out.println();
+    }
+
+    public List<Integer> getGameFilledBalls() {
+        return gameFilledBalls;
+    }
+
+    public void setGameFilledBalls(List<Integer> gameFilledBalls) {
+        this.gameFilledBalls = gameFilledBalls;
+    }
+}
