@@ -1,5 +1,6 @@
 package com.gmail.tsimbolinetsoleg;
 
+
 import TicketLibrary.Ticket;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,7 +22,7 @@ public class PowerBallTest {
     }
 
      @Test
-     public void creationTicket() throws Exception {
+     public void registrationTicket() throws Exception {
         Ticket ticket = new Ticket();
         ticket = ticket.registerTicket();
         assertEquals(6, ticket.getGameFilledBalls().size());
