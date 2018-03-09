@@ -14,7 +14,7 @@ public class PowerBallLotteryTest {
 
     private PowerBallLottery powerB;
     private PowerBallManager powerBallManager = new PowerBallManager(new RandomTicketRegistration(),
-            new ConsoleOutputProvider(), new PowerBallStatistic(), new PowerBallChecker());
+            new ConsoleIOProvider(), new PowerBallStatistic(), new PowerBallChecker());
     private int ticketsCount = 3000000;
 
     @Before
