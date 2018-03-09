@@ -26,7 +26,7 @@ public class PowerBallLotteryTest {
     public void registrationTicketTest() throws Exception {
         System.out.println();
         System.out.println("Registration Ticket Test:");
-        Ticket ticket = powerBallManager.getRegistrar().registerTicket();
+        Ticket ticket = powerBallManager.registerTicket();
         assertEquals(6, ticket.getGameFilledBalls().size());
         System.out.println(ticket.getGameFilledBalls());
     }
@@ -35,31 +35,31 @@ public class PowerBallLotteryTest {
     public void testForWinners() throws Exception {
         System.out.println();
         System.out.println(" Winners Test:");
-        List<Ticket> tickets = powerBallManager.getRegistrar().createTickets(ticketsCount / 10);
-        Ticket ticketWinNumber = powerBallManager.getRegistrar().registerTicket();
-        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.getChecker().CheckForWinners(tickets, ticketWinNumber);
-        powerBallManager.getIoProvider().printWinners(winners);
+        List<Ticket> tickets = powerBallManager.createTickets(ticketsCount / 10);
+        Ticket ticketWinNumber = powerBallManager.registerTicket();
+        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.checkForWinners(tickets, ticketWinNumber);
+        powerBallManager.printWinners(winners);
     }
 
     @Test
     public void testForJackpotWinners() throws Exception {
         System.out.println();
         System.out.println("Test for Jackpot Winner:");
-        List<Ticket> tickets = powerBallManager.getRegistrar().createTickets(10);
-        Ticket ticketWinNumber = powerBallManager.getRegistrar().registerTicket();
+        List<Ticket> tickets = powerBallManager.createTickets(10);
+        Ticket ticketWinNumber = powerBallManager.registerTicket();
         tickets.add(ticketWinNumber);
-        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.getChecker().CheckForWinners(tickets, ticketWinNumber);
-        powerBallManager.getIoProvider().printWinners(winners);
+        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.checkForWinners(tickets, ticketWinNumber);
+        powerBallManager.printWinners(winners);
     }
 
     @Test
     public void statisticTest() throws Exception {
         System.out.println();
         System.out.println("Statistic Test:");
-        List<Ticket> tickets = powerBallManager.getRegistrar().createTickets(ticketsCount);
-        Ticket ticketWinNumber = powerBallManager.getRegistrar().registerTicket();
-        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.getChecker().CheckForWinners(tickets, ticketWinNumber);
-        powerBallManager.getIoProvider().printWinners(winners);
-        powerBallManager.getStatistic().statisticOfWinning(ticketsCount, winners);
+        List<Ticket> tickets = powerBallManager.createTickets(ticketsCount);
+        Ticket ticketWinNumber = powerBallManager.registerTicket();
+        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.checkForWinners(tickets, ticketWinNumber);
+        powerBallManager.printWinners(winners);
+        powerBallManager.statisticOfWinning(ticketsCount, winners);
     }
 }
