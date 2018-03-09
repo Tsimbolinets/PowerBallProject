@@ -1,9 +1,6 @@
 package com.gmail.tsimbolinetsoleg;
 
-import TicketLibrary.IUserOutputProvider;
-import TicketLibrary.PowerBallManager;
-import TicketLibrary.RandomTicketRegistration;
-import TicketLibrary.Ticket;
+import TicketLibrary.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,8 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class PowerBallLotteryTest {
 
     private PowerBallLottery powerB;
-    private PowerBallManager powerBallManager = new PowerBallManager(new RandomTicketRegistration(), new IUserOutputProvider());
-
+    private PowerBallManager powerBallManager = new PowerBallManager(new RandomTicketRegistration(),
+            new ConsoleOutputProvider(), new PowerBallStatistic(), new PowerBallChecker());
     private int ticketsCount = 3000000;
 
     @Before
@@ -40,8 +37,8 @@ public class PowerBallLotteryTest {
         System.out.println(" Winners Test:");
         List<Ticket> tickets = powerBallManager.getRegistrar().createTickets(ticketsCount / 10);
         Ticket ticketWinNumber = powerBallManager.getRegistrar().registerTicket();
-        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.CheckForWinners(tickets, ticketWinNumber);
-        powerBallManager.getIUserOutputProvider().printWinners(winners);
+        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.getChecker().CheckForWinners(tickets, ticketWinNumber);
+        powerBallManager.getIoProvider().printWinners(winners);
     }
 
     @Test
@@ -51,8 +48,8 @@ public class PowerBallLotteryTest {
         List<Ticket> tickets = powerBallManager.getRegistrar().createTickets(10);
         Ticket ticketWinNumber = powerBallManager.getRegistrar().registerTicket();
         tickets.add(ticketWinNumber);
-        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.CheckForWinners(tickets, ticketWinNumber);
-        powerBallManager.getIUserOutputProvider().printWinners(winners);
+        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.getChecker().CheckForWinners(tickets, ticketWinNumber);
+        powerBallManager.getIoProvider().printWinners(winners);
     }
 
     @Test
@@ -61,8 +58,8 @@ public class PowerBallLotteryTest {
         System.out.println("Statistic Test:");
         List<Ticket> tickets = powerBallManager.getRegistrar().createTickets(ticketsCount);
         Ticket ticketWinNumber = powerBallManager.getRegistrar().registerTicket();
-        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.CheckForWinners(tickets, ticketWinNumber);
-        powerBallManager.getIUserOutputProvider().printWinners(winners);
-        powerBallManager.statisticOfWinning(ticketsCount, winners);
+        HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.getChecker().CheckForWinners(tickets, ticketWinNumber);
+        powerBallManager.getIoProvider().printWinners(winners);
+        powerBallManager.getStatistic().statisticOfWinning(ticketsCount, winners);
     }
 }
