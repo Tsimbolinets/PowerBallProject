@@ -15,7 +15,7 @@ class PowerBallStart {
         int ticketsCount = powerBallManager.inputValue();
         List<Ticket> tickets = powerBallManager.createTickets(ticketsCount);
         Ticket ticketWinNumber = powerBallManager.registerTicket();
-        // tickets.add(powerBallManager.registerTicketYourself());  //if u want to add 1 ticket Yourself
+         tickets.add(powerBallManager.registerTicketYourself());  //if u want to add 1 ticket Yourself
         HashMap<Ticket.possiblePrize, List<Ticket>> winners = powerBallManager.checkForWinners(tickets, ticketWinNumber);
         powerBallManager.printWinners(winners);
         powerBallManager.statisticOfWinning(ticketsCount, winners);
